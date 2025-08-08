@@ -1,7 +1,6 @@
 (() => {
-  'use strict';
+  "use strict";
 
-  // Dummy Data
   const courses = [
     {
       id: 1,
@@ -19,7 +18,7 @@
       img: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=220&q=80",
       sellingFast: true,
       time: "Morning",
-      session: "Morning classes (8am–12pm)"
+      session: "Morning classes (8am–12pm)",
     },
     {
       id: 2,
@@ -37,7 +36,7 @@
       img: "https://images.unsplash.com/photo-1556155092-490a1ba16284?auto=format&fit=crop&w=220&q=80",
       sellingFast: false,
       time: "Afternoon",
-      session: "Afternoon classes (12pm–4pm)"
+      session: "Afternoon classes (12pm–4pm)",
     },
     {
       id: 3,
@@ -55,7 +54,7 @@
       img: "https://images.unsplash.com/photo-1602526242308-522d9cf105c8?auto=format&fit=crop&w=220&q=80",
       sellingFast: true,
       time: "Evening",
-      session: "Evening classes (4pm–8pm)"
+      session: "Evening classes (4pm–8pm)",
     },
     {
       id: 4,
@@ -73,8 +72,8 @@
       img: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=220&q=80",
       sellingFast: false,
       time: "Late Evening",
-      session: "Late evening classes (8pm–11pm)"
-    }
+      session: "Late evening classes (8pm–11pm)",
+    },
   ];
 
   const teachers = [
@@ -82,26 +81,26 @@
       name: "Andy Brew",
       credentials: "MSc, BEd | 15+ Years | 1000+ Students",
       field: "Computer science",
-      img: "https://randomuser.me/api/portraits/men/75.jpg"
+      img: "https://randomuser.me/api/portraits/men/75.jpg",
     },
     {
       name: "Ella Grace",
       credentials: "MA Education | 12 years",
       field: "English",
-      img: "https://randomuser.me/api/portraits/women/68.jpg"
+      img: "https://randomuser.me/api/portraits/women/68.jpg",
     },
     {
       name: "Mike Taylor",
       credentials: "BSc, Coding Expert",
       field: "Coding",
-      img: "https://randomuser.me/api/portraits/men/35.jpg"
+      img: "https://randomuser.me/api/portraits/men/35.jpg",
     },
     {
       name: "Julia Banks",
       credentials: "Early Childhood Educator",
       field: "Early educator",
-      img: "https://randomuser.me/api/portraits/women/43.jpg"
-    }
+      img: "https://randomuser.me/api/portraits/women/43.jpg",
+    },
   ];
 
   const categories = [
@@ -109,35 +108,31 @@
     { name: "Public speaking", icon: "🗣️" },
     { name: "Chess", icon: "♟️" },
     { name: "Homework help", icon: "📚" },
-    { name: "App building", icon: "📱" }
+    { name: "App building", icon: "📱" },
   ];
 
   const timeFilters = [
     "Morning classes (8am–12pm)",
     "Afternoon classes (12pm–4pm)",
     "Evening classes (4pm–8pm)",
-    "Late evening classes (8pm–11pm)"
+    "Late evening classes (8pm–11pm)",
   ];
 
-  // Helpers to create elements
-  function createBadge(text, className) {
-    const span = document.createElement('span');
-    span.textContent = text;
-    span.className = `course-badge ${className}`;
-    span.setAttribute('aria-label', text);
-    return span;
-  }
-
+  // Create cards and render functions
   function createCourseCard(course) {
-    const card = document.createElement('div');
-    card.className = 'course-card';
-    card.setAttribute('role', 'listitem');
+    const card = document.createElement("div");
+    card.className = "course-card";
+    card.setAttribute("role", "listitem");
     card.tabIndex = 0;
     card.innerHTML = `
       <img class="course-image" src="${course.img}" alt="Course image: ${course.title}">
       <div class="course-content">
         <div>
-          ${course.sellingFast ? '<span class="course-badge badge-selling">Selling Fast</span>' : ''}
+          ${
+            course.sellingFast
+              ? '<span class="course-badge badge-selling">Selling Fast</span>'
+              : ""
+          }
           <div class="course-title">${course.title}</div>
           <div class="course-desc">${course.description}</div>
           <div class="course-meta">
@@ -162,9 +157,9 @@
   }
 
   function createTeacherCard(teacher) {
-    const card = document.createElement('div');
-    card.className = 'teacher-card';
-    card.setAttribute('role', 'listitem');
+    const card = document.createElement("div");
+    card.className = "teacher-card";
+    card.setAttribute("role", "listitem");
     card.tabIndex = 0;
     card.innerHTML = `
       <img class="teacher-avatar" src="${teacher.img}" alt="Photo of teacher ${teacher.name}">
@@ -176,11 +171,11 @@
   }
 
   function createCategoryCard(category) {
-    const card = document.createElement('button');
-    card.className = 'category-card';
-    card.type = 'button';
-    card.setAttribute('aria-pressed', 'false');
-    card.setAttribute('role', 'switch');
+    const card = document.createElement("button");
+    card.className = "category-card";
+    card.type = "button";
+    card.setAttribute("aria-pressed", "false");
+    card.setAttribute("role", "switch");
     card.tabIndex = 0;
     card.innerHTML = `
       <span class="icon" aria-hidden="true">${category.icon}</span>
@@ -189,179 +184,182 @@
     return card;
   }
 
-  // Carousel rendering
   function renderCarousel(container, items, createCardFn) {
-    container.innerHTML = '';
-    items.forEach(item => {
+    container.innerHTML = "";
+    items.forEach((item) => {
       const card = createCardFn(item);
       container.appendChild(card);
     });
   }
 
-  // Initialize Carousels
-  const newLaunchesEl = document.getElementById('newLaunchesCarousel');
-  const featuredCoursesEl = document.getElementById('featuredCoursesCarousel');
-  const teachersEl = document.getElementById('teachersCarousel');
-  const webinarEl = document.getElementById('webinarCarousel');
-  const categoryGridEl = document.getElementById('categoryGrid');
-  const filterCategoryChips = document.getElementById('filterCategoryChips');
-  const filterTimeChips = document.getElementById('filterTimeChips');
-  const filteredCoursesCarousel = document.getElementById('filteredCoursesCarousel');
+  // Initialize elements
+  const newLaunchesEl = document.getElementById("newLaunchesCarousel");
+  const featuredCoursesEl = document.getElementById("featuredCoursesCarousel");
+  const teachersEl = document.getElementById("teachersCarousel");
+  const webinarEl = document.getElementById("webinarCarousel");
+  const categoryGridEl = document.getElementById("categoryGrid");
+  const filterCategoryChips = document.getElementById("filterCategoryChips");
+  const filterTimeChips = document.getElementById("filterTimeChips");
+  const filteredCoursesCarousel = document.getElementById("filteredCoursesCarousel");
 
-  // For demo, use courses for multiple sections
+  // Populate carousels
   renderCarousel(newLaunchesEl, courses, createCourseCard);
   renderCarousel(featuredCoursesEl, courses, createCourseCard);
   renderCarousel(teachersEl, teachers, createTeacherCard);
   renderCarousel(webinarEl, courses, createCourseCard);
 
-  // Render category filter chips
-  categories.forEach(cat => {
-    const chip = document.createElement('button');
-    chip.type = 'button';
+  // Populate filters
+  categories.forEach((cat) => {
+    const chip = document.createElement("button");
+    chip.type = "button";
     chip.textContent = cat.name;
     chip.dataset.category = cat.name;
-    chip.className = 'filter-chip';
+    chip.className = "filter-chip";
     filterCategoryChips.appendChild(chip);
   });
 
-  // Render time filter chips
-  timeFilters.forEach(time => {
-    const chip = document.createElement('button');
-    chip.type = 'button';
+  timeFilters.forEach((time) => {
+    const chip = document.createElement("button");
+    chip.type = "button";
     chip.textContent = time;
     chip.dataset.time = time;
-    chip.className = 'filter-chip';
+    chip.className = "filter-chip";
     filterTimeChips.appendChild(chip);
   });
 
-  // Render popular categories
-  categories.forEach(cat => {
+  categories.forEach((cat) => {
     const catCard = createCategoryCard(cat);
     catCard.dataset.category = cat.name;
     categoryGridEl.appendChild(catCard);
   });
 
-  // Age filter buttons logic
-  const ageFilterButtons = document.querySelectorAll('.age-filter button');
-  ageFilterButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      ageFilterButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      // Could filter courses by ageGroup here - optional extension
+  // Age filter active state
+  const ageFilterButtons = document.querySelectorAll(".age-filter button");
+  ageFilterButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      ageFilterButtons.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      // Optional: filterCoursesByAge(btn.dataset.age);
     });
   });
 
-  // Category filter chips logic
+  // Category filter logic
   let selectedCategory = null;
-  [...filterCategoryChips.children].forEach(chip => {
-    chip.addEventListener('click', () => {
+  [...filterCategoryChips.children].forEach((chip) => {
+    chip.addEventListener("click", () => {
       if (selectedCategory === chip.dataset.category) {
-        chip.classList.remove('active');
-        chip.setAttribute('aria-pressed', 'false');
+        chip.classList.remove("active");
+        chip.setAttribute("aria-pressed", "false");
         selectedCategory = null;
       } else {
         selectedCategory = chip.dataset.category;
-        [...filterCategoryChips.children].forEach(c => {
-          c.classList.remove('active');
-          c.setAttribute('aria-pressed', 'false');
+        [...filterCategoryChips.children].forEach((c) => {
+          c.classList.remove("active");
+          c.setAttribute("aria-pressed", "false");
         });
-        chip.classList.add('active');
-        chip.setAttribute('aria-pressed', 'true');
+        chip.classList.add("active");
+        chip.setAttribute("aria-pressed", "true");
       }
       filterCourses();
     });
   });
 
-  // Time filter chips logic
+  // Time filter logic
   let selectedTime = null;
-  [...filterTimeChips.children].forEach(chip => {
-    chip.addEventListener('click', () => {
+  [...filterTimeChips.children].forEach((chip) => {
+    chip.addEventListener("click", () => {
       if (selectedTime === chip.dataset.time) {
-        chip.classList.remove('active');
-        chip.setAttribute('aria-pressed', 'false');
+        chip.classList.remove("active");
+        chip.setAttribute("aria-pressed", "false");
         selectedTime = null;
       } else {
         selectedTime = chip.dataset.time;
-        [...filterTimeChips.children].forEach(c => {
-          c.classList.remove('active');
-          c.setAttribute('aria-pressed', 'false');
+        [...filterTimeChips.children].forEach((c) => {
+          c.classList.remove("active");
+          c.setAttribute("aria-pressed", "false");
         });
-        chip.classList.add('active');
-        chip.setAttribute('aria-pressed', 'true');
+        chip.classList.add("active");
+        chip.setAttribute("aria-pressed", "true");
       }
       filterCourses();
     });
   });
 
-  // Popular category grid logic (synchronizes with filter chips)
-  const categoryCards = categoryGridEl.querySelectorAll('.category-card');
-  categoryCards.forEach(card => {
-    card.addEventListener('click', () => {
+  // Sync popular category cards with filter chips
+  const categoryCards = categoryGridEl.querySelectorAll(".category-card");
+  categoryCards.forEach((card) => {
+    card.addEventListener("click", () => {
       const catName = card.dataset.category;
-      // Mirror to filter chips:
-      const matchingChip = [...filterCategoryChips.children].find(c => c.dataset.category === catName);
+      const matchingChip = [...filterCategoryChips.children].find(
+        (c) => c.dataset.category === catName
+      );
       if (selectedCategory === catName) {
-        card.classList.remove('active');
+        card.classList.remove("active");
         selectedCategory = null;
         if (matchingChip) {
-          matchingChip.classList.remove('active');
-          matchingChip.setAttribute('aria-pressed', 'false');
+          matchingChip.classList.remove("active");
+          matchingChip.setAttribute("aria-pressed", "false");
         }
       } else {
         selectedCategory = catName;
-        categoryCards.forEach(c => c.classList.remove('active'));
-        card.classList.add('active');
+        categoryCards.forEach((c) => c.classList.remove("active"));
+        card.classList.add("active");
         if (matchingChip) {
-          [...filterCategoryChips.children].forEach(c => {
-            c.classList.remove('active');
-            c.setAttribute('aria-pressed', 'false');
+          [...filterCategoryChips.children].forEach((c) => {
+            c.classList.remove("active");
+            c.setAttribute("aria-pressed", "false");
           });
-          matchingChip.classList.add('active');
-          matchingChip.setAttribute('aria-pressed', 'true');
+          matchingChip.classList.add("active");
+          matchingChip.setAttribute("aria-pressed", "true");
         }
       }
       filterCourses();
     });
   });
 
-  // Filter courses by selected category and time
+  // Filter courses by category and time
   function filterCourses() {
-    const filtered = courses.filter(course => {
-      const categoryMatch = selectedCategory ? course.tags.includes(selectedCategory) : true;
+    const filtered = courses.filter((course) => {
+      const categoryMatch = selectedCategory
+        ? course.tags.includes(selectedCategory)
+        : true;
       const timeMatch = selectedTime ? course.session === selectedTime : true;
       return categoryMatch && timeMatch;
     });
     renderCarousel(filteredCoursesCarousel, filtered, createCourseCard);
   }
 
-  // Initial load filter courses
+  // Initial load
   filterCourses();
 
-  // Search bar (just basic - filters courses by title)
-  const searchInput = document.getElementById('searchInput');
-  const searchForm = document.getElementById('searchForm');
-  searchForm.addEventListener('submit', () => {
+  // Basic search bar filtering
+  const searchInput = document.getElementById("searchInput");
+  const searchForm = document.getElementById("searchForm");
+  searchForm.addEventListener("submit", () => {
     const q = searchInput.value.trim().toLowerCase();
     if (!q) {
-      renderCarousel(filteredCoursesCarousel, courses, createCourseCard);
+      filterCourses();
       return;
     }
-    const results = courses.filter(c => c.title.toLowerCase().includes(q) || c.description.toLowerCase().includes(q));
+    const results = courses.filter(
+      (c) =>
+        c.title.toLowerCase().includes(q) ||
+        c.description.toLowerCase().includes(q)
+    );
     renderCarousel(filteredCoursesCarousel, results, createCourseCard);
   });
 
-  // Accessibility: Keyboard usable carousels
-  const carousels = document.querySelectorAll('.carousel-container');
-  carousels.forEach(carousel => {
-    carousel.addEventListener('keydown', e => {
-      if (e.key === 'ArrowRight') {
+  // Keyboard navigation in carousels
+  const carousels = document.querySelectorAll(".carousel-container");
+  carousels.forEach((carousel) => {
+    carousel.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") {
         e.preventDefault();
-        carousel.scrollBy({ left: 260, behavior: 'smooth' });
-      } else if (e.key === 'ArrowLeft') {
+        carousel.scrollBy({ left: 260, behavior: "smooth" });
+      } else if (e.key === "ArrowLeft") {
         e.preventDefault();
-        carousel.scrollBy({ left: -260, behavior: 'smooth' });
+        carousel.scrollBy({ left: -260, behavior: "smooth" });
       }
     });
   });
-
 })();
