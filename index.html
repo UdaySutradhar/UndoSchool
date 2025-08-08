@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UndoSchool Course Browse Page</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header role="banner">
+    <div class="logo" tabindex="0">UndoSchool</div>
+    <nav role="navigation" aria-label="Primary navigation">
+      <a href="#courses" tabindex="0">Courses</a>
+      <a href="#teachers" tabindex="0">Teachers</a>
+      <a href="#webinars" tabindex="0">Webinars</a>
+      <a href="#categories" tabindex="0">Categories</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn-outline" tabindex="0">Login</button>
+      <button class="btn-primary" tabindex="0">Register for Free</button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" aria-label="Hero Banner">
+    <h1>Learn a New Skill Everyday, Anytime, and Anywhere.</h1>
+    <form id="searchForm" role="search" aria-label="Course search form" class="search-bar" onsubmit="return false;">
+      <input id="searchInput" type="search" placeholder="What do you want to learn today?" aria-label="Search courses" />
+      <button class="search-btn" aria-label="Search courses" type="submit">Search</button>
+    </form>
+    <div class="stats" aria-live="polite">
+      <div class="stat-item"><strong>500+</strong> Courses</div>
+      <div class="stat-item"><strong>4.9</strong> Rating</div>
+      <div class="stat-item"><strong>10k+</strong> Happy kids</div>
+    </div>
+    <img class="hero-illustration" src="https://assets.codepen.io/6058761/hero-illustration.png" alt="Happy children learning" aria-hidden="true" />
+  </section>
+
+  <!-- Age Filter -->
+  <section aria-label="Age filter">
+    <h2>How Old Are You? 🎯</h2>
+    <p class="subtitle">Select an age group to see perfect courses for your child’s development stage.</p>
+    <div class="age-filter" role="group" aria-label="Select age group">
+      <button type="button" data-age="1-2">1–2</button>
+      <button type="button" data-age="2-3">2–3</button>
+      <button type="button" data-age="4-6">4–6</button>
+      <button type="button" data-age="7-10">7–10</button>
+      <button type="button" data-age="11-14">11–14</button>
+      <button type="button" data-age="15-18">15–18</button>
+      <button type="button" data-age="19-20">19–20</button>
+    </div>
+  </section>
+
+  <!-- New Launches Carousel -->
+  <section aria-label="New launches courses">
+    <h2>⭐ New Launches</h2>
+    <div class="carousel-container" tabindex="0" aria-label="New launches course carousel">
+      <div id="newLaunchesCarousel" class="carousel" role="list" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- Featured Courses Carousel -->
+  <section aria-label="Featured courses">
+    <h2>🌟 Featured Courses</h2>
+    <div class="carousel-container" tabindex="0" aria-label="Featured courses carousel">
+      <div id="featuredCoursesCarousel" class="carousel" role="list" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- Learn from Top Teachers -->
+  <section id="teachers" aria-label="Top teachers">
+    <h2>Learn from Top Teachers</h2>
+    <p class="subtitle">Expert instructors who make learning fun and engaging for every child</p>
+    <div class="carousel-container" tabindex="0" aria-label="Teacher card carousel">
+      <div id="teachersCarousel" class="carousel" role="list" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- Webinar Starting Soon -->
+  <section id="webinars" aria-label="Upcoming webinars">
+    <h2>Webinar starting within 24 hrs</h2>
+    <div class="carousel-container" tabindex="0" aria-label="Upcoming webinar carousel">
+      <div id="webinarCarousel" class="carousel" role="list" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- Popular Categories -->
+  <section id="categories" aria-label="Popular categories">
+    <h2>Popular Categories</h2>
+    <p class="subtitle">Pick what you love most! These categories have everything you need to learn something awesome ✨</p>
+    <div id="categoryGrid" class="category-grid" role="list" aria-live="polite" tabindex="0"></div>
+  </section>
+
+  <!-- Course Category Filter -->
+  <section aria-label="Filter courses by category and time">
+    <h2>Filter Courses</h2>
+    <p class="subtitle">Select category and time to match your child's learning schedule</p>
+
+    <div id="filterCategoryChips" class="filter-chips" role="group" aria-label="Course category filter"></div>
+    <div id="filterTimeChips" class="filter-chips" role="group" aria-label="Course time filter"></div>
+
+    <div id="filteredCourses" class="carousel-container" tabindex="0" aria-label="Filtered courses carousel">
+      <div class="carousel" id="filteredCoursesCarousel" role="list" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
