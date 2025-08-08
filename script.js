@@ -118,44 +118,48 @@
     "Late evening classes (8pm–11pm)",
   ];
 
-  // Create cards and render functions
+  // --- UPDATED COURSE CARD FUNCTION for Screenshot 1 STYLE ---
   function createCourseCard(course) {
     const card = document.createElement("div");
     card.className = "course-card";
     card.setAttribute("role", "listitem");
     card.tabIndex = 0;
+
+    // SVG icons
+    const iconClock = `<svg width="16" height="16" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
+    const iconUsers = `<svg width="16" height="16" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-3-3.87"/><path d="M7 21v-2a4 4 0 0 1 3-3.87"/><circle cx="12" cy="7" r="4"/></svg>`;
+    const iconRupee = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6a5afe" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h-7c-3 0-3 2 0 2h7c3 0 3 2 0 2h-7"/><path d="M6 17h10"/></svg>`;
+
     card.innerHTML = `
       <img class="course-image" src="${course.img}" alt="Course image: ${course.title}">
       <div class="course-content">
-        <div>
-          ${
-            course.sellingFast
-              ? '<span class="course-badge badge-selling">Selling Fast</span>'
-              : ""
-          }
+        <div class="course-card-top">
+          ${course.sellingFast ? '<span class="course-badge badge-selling">Selling Fast</span>' : ''}
+          <div class="course-rating-learners">
+            <span class="course-rating">⭐ ${course.rating}</span>
+            <span class="course-learners">${course.learners}+ learners</span>
+          </div>
           <div class="course-title">${course.title}</div>
           <div class="course-desc">${course.description}</div>
-          <div class="course-meta">
-            <span>${course.language}</span>
-            <span>${course.level}</span>
-            <span>${course.classes} classes</span>
+          <div class="course-meta-pills">
+            <span class="pill bg-main">${course.language}</span>
+            <span class="pill bg-level">${course.level}</span>
+            <span class="pill bg-classes">${course.classes} classes</span>
           </div>
         </div>
-        <div>
-          <div class="course-footer">
-            <span>₹${course.price}</span>
-            <span>By: ${course.instructor}</span>
-          </div>
-          <div class="course-meta" style="justify-content: flex-start; gap:1rem; margin-top:0.4rem;">
-            <span>${course.ageGroup} yrs</span>
-            <span>⭐ ${course.rating} | ${course.learners}+ learners</span>
-          </div>
+        <div class="course-bottom-row">
+          <span class="age">${course.ageGroup} yrs</span>
+          <span class="cb-icon">${iconClock} ${course.classes}</span>
+          <span class="cb-icon">${iconUsers} ${course.learners}</span>
+          <span class="price">${iconRupee} ₹${course.price}</span>
         </div>
+        <div class="course-instructor">By: ${course.instructor}</div>
       </div>
     `;
     return card;
   }
 
+  // Render carousels
   function createTeacherCard(teacher) {
     const card = document.createElement("div");
     card.className = "teacher-card";
@@ -169,7 +173,6 @@
     `;
     return card;
   }
-
   function createCategoryCard(category) {
     const card = document.createElement("button");
     card.className = "category-card";
@@ -177,188 +180,127 @@
     card.setAttribute("aria-pressed", "false");
     card.setAttribute("role", "switch");
     card.tabIndex = 0;
-    card.innerHTML = `
-      <span class="icon" aria-hidden="true">${category.icon}</span>
-      <span>${category.name}</span>
-    `;
+    card.innerHTML = `<span class="icon" aria-hidden="true">${category.icon}</span><span>${category.name}</span>`;
     return card;
   }
-
   function renderCarousel(container, items, createCardFn) {
     container.innerHTML = "";
-    items.forEach((item) => {
-      const card = createCardFn(item);
-      container.appendChild(card);
-    });
+    items.forEach((item) => { container.appendChild(createCardFn(item)); });
   }
 
-  // Initialize elements
-  const newLaunchesEl = document.getElementById("newLaunchesCarousel");
-  const featuredCoursesEl = document.getElementById("featuredCoursesCarousel");
-  const teachersEl = document.getElementById("teachersCarousel");
-  const webinarEl = document.getElementById("webinarCarousel");
-  const categoryGridEl = document.getElementById("categoryGrid");
-  const filterCategoryChips = document.getElementById("filterCategoryChips");
-  const filterTimeChips = document.getElementById("filterTimeChips");
+  // -- DOM queries, initialization
+  const newLaunchesEl         = document.getElementById("newLaunchesCarousel");
+  const featuredCoursesEl     = document.getElementById("featuredCoursesCarousel");
+  const teachersEl            = document.getElementById("teachersCarousel");
+  const webinarEl             = document.getElementById("webinarCarousel");
+  const categoryGridEl        = document.getElementById("categoryGrid");
+  const filterCategoryChips   = document.getElementById("filterCategoryChips");
+  const filterTimeChips       = document.getElementById("filterTimeChips");
   const filteredCoursesCarousel = document.getElementById("filteredCoursesCarousel");
 
-  // Populate carousels
   renderCarousel(newLaunchesEl, courses, createCourseCard);
   renderCarousel(featuredCoursesEl, courses, createCourseCard);
   renderCarousel(teachersEl, teachers, createTeacherCard);
   renderCarousel(webinarEl, courses, createCourseCard);
 
-  // Populate filters
   categories.forEach((cat) => {
     const chip = document.createElement("button");
-    chip.type = "button";
-    chip.textContent = cat.name;
-    chip.dataset.category = cat.name;
-    chip.className = "filter-chip";
+    chip.type = "button"; chip.textContent = cat.name;
+    chip.dataset.category = cat.name; chip.className = "filter-chip";
     filterCategoryChips.appendChild(chip);
   });
 
   timeFilters.forEach((time) => {
     const chip = document.createElement("button");
-    chip.type = "button";
-    chip.textContent = time;
-    chip.dataset.time = time;
-    chip.className = "filter-chip";
+    chip.type = "button"; chip.textContent = time;
+    chip.dataset.time = time; chip.className = "filter-chip";
     filterTimeChips.appendChild(chip);
   });
 
   categories.forEach((cat) => {
-    const catCard = createCategoryCard(cat);
-    catCard.dataset.category = cat.name;
+    const catCard = createCategoryCard(cat); catCard.dataset.category = cat.name;
     categoryGridEl.appendChild(catCard);
   });
 
-  // Age filter active state
-  const ageFilterButtons = document.querySelectorAll(".age-filter button");
-  ageFilterButtons.forEach((btn) => {
+  // Age filter active state only (no filtering logic)
+  document.querySelectorAll(".age-filter button").forEach(btn => {
     btn.addEventListener("click", () => {
-      ageFilterButtons.forEach((b) => b.classList.remove("active"));
+      document.querySelectorAll(".age-filter button").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
-      // Optional: filterCoursesByAge(btn.dataset.age);
     });
   });
 
-  // Category filter logic
-  let selectedCategory = null;
-  [...filterCategoryChips.children].forEach((chip) => {
+  // Category/Time filter logic (as before)
+  let selectedCategory = null, selectedTime = null;
+  [...filterCategoryChips.children].forEach(chip => {
     chip.addEventListener("click", () => {
       if (selectedCategory === chip.dataset.category) {
-        chip.classList.remove("active");
-        chip.setAttribute("aria-pressed", "false");
+        chip.classList.remove("active"); chip.setAttribute("aria-pressed", "false");
         selectedCategory = null;
       } else {
         selectedCategory = chip.dataset.category;
-        [...filterCategoryChips.children].forEach((c) => {
-          c.classList.remove("active");
-          c.setAttribute("aria-pressed", "false");
-        });
-        chip.classList.add("active");
-        chip.setAttribute("aria-pressed", "true");
+        [...filterCategoryChips.children].forEach(c => { c.classList.remove("active"); c.setAttribute("aria-pressed", "false"); });
+        chip.classList.add("active"); chip.setAttribute("aria-pressed", "true");
       }
       filterCourses();
     });
   });
-
-  // Time filter logic
-  let selectedTime = null;
-  [...filterTimeChips.children].forEach((chip) => {
+  [...filterTimeChips.children].forEach(chip => {
     chip.addEventListener("click", () => {
       if (selectedTime === chip.dataset.time) {
-        chip.classList.remove("active");
-        chip.setAttribute("aria-pressed", "false");
+        chip.classList.remove("active"); chip.setAttribute("aria-pressed", "false");
         selectedTime = null;
       } else {
         selectedTime = chip.dataset.time;
-        [...filterTimeChips.children].forEach((c) => {
-          c.classList.remove("active");
-          c.setAttribute("aria-pressed", "false");
-        });
-        chip.classList.add("active");
-        chip.setAttribute("aria-pressed", "true");
+        [...filterTimeChips.children].forEach(c => { c.classList.remove("active"); c.setAttribute("aria-pressed", "false"); });
+        chip.classList.add("active"); chip.setAttribute("aria-pressed", "true");
       }
       filterCourses();
     });
   });
-
-  // Sync popular category cards with filter chips
+  // sync popular category cards with filter chips
   const categoryCards = categoryGridEl.querySelectorAll(".category-card");
   categoryCards.forEach((card) => {
     card.addEventListener("click", () => {
       const catName = card.dataset.category;
-      const matchingChip = [...filterCategoryChips.children].find(
-        (c) => c.dataset.category === catName
-      );
+      const matchingChip = [...filterCategoryChips.children].find((c) => c.dataset.category === catName);
       if (selectedCategory === catName) {
-        card.classList.remove("active");
-        selectedCategory = null;
-        if (matchingChip) {
-          matchingChip.classList.remove("active");
-          matchingChip.setAttribute("aria-pressed", "false");
-        }
+        card.classList.remove("active"); selectedCategory = null;
+        matchingChip && matchingChip.classList.remove("active"), matchingChip.setAttribute("aria-pressed", "false");
       } else {
         selectedCategory = catName;
-        categoryCards.forEach((c) => c.classList.remove("active"));
-        card.classList.add("active");
+        categoryCards.forEach(c => c.classList.remove("active")); card.classList.add("active");
         if (matchingChip) {
-          [...filterCategoryChips.children].forEach((c) => {
-            c.classList.remove("active");
-            c.setAttribute("aria-pressed", "false");
-          });
-          matchingChip.classList.add("active");
-          matchingChip.setAttribute("aria-pressed", "true");
+          [...filterCategoryChips.children].forEach(c => { c.classList.remove("active"); c.setAttribute("aria-pressed", "false"); });
+          matchingChip.classList.add("active"); matchingChip.setAttribute("aria-pressed", "true");
         }
       }
       filterCourses();
     });
   });
-
-  // Filter courses by category and time
   function filterCourses() {
-    const filtered = courses.filter((course) => {
-      const categoryMatch = selectedCategory
-        ? course.tags.includes(selectedCategory)
-        : true;
+    const filtered = courses.filter(course => {
+      const categoryMatch = selectedCategory ? course.tags.includes(selectedCategory) : true;
       const timeMatch = selectedTime ? course.session === selectedTime : true;
       return categoryMatch && timeMatch;
     });
     renderCarousel(filteredCoursesCarousel, filtered, createCourseCard);
   }
-
-  // Initial load
   filterCourses();
-
-  // Basic search bar filtering
-  const searchInput = document.getElementById("searchInput");
-  const searchForm = document.getElementById("searchForm");
-  searchForm.addEventListener("submit", () => {
-    const q = searchInput.value.trim().toLowerCase();
-    if (!q) {
-      filterCourses();
-      return;
-    }
-    const results = courses.filter(
-      (c) =>
-        c.title.toLowerCase().includes(q) ||
-        c.description.toLowerCase().includes(q)
-    );
+  // Search
+  document.getElementById("searchForm").addEventListener("submit", () => {
+    const q = document.getElementById("searchInput").value.trim().toLowerCase();
+    if (!q) { filterCourses(); return; }
+    const results = courses.filter(c=>c.title.toLowerCase().includes(q)||c.description.toLowerCase().includes(q));
     renderCarousel(filteredCoursesCarousel, results, createCourseCard);
   });
-
-  // Keyboard navigation in carousels
-  const carousels = document.querySelectorAll(".carousel-container");
-  carousels.forEach((carousel) => {
+  // Keyboard
+  document.querySelectorAll(".carousel-container").forEach(carousel => {
     carousel.addEventListener("keydown", (e) => {
       if (e.key === "ArrowRight") {
-        e.preventDefault();
-        carousel.scrollBy({ left: 260, behavior: "smooth" });
+        e.preventDefault(); carousel.scrollBy({ left: 260, behavior: "smooth" });
       } else if (e.key === "ArrowLeft") {
-        e.preventDefault();
-        carousel.scrollBy({ left: -260, behavior: "smooth" });
+        e.preventDefault(); carousel.scrollBy({ left: -260, behavior: "smooth" });
       }
     });
   });
